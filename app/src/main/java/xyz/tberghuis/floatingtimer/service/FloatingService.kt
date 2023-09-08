@@ -32,13 +32,13 @@ import xyz.tberghuis.floatingtimer.service.countdown.TimerStateFinished
 
 class FloatingService : Service() {
   private val job = SupervisorJob()
-  val scope = CoroutineScope(Dispatchers.Default + job)
-  val state = ServiceState(scope)
+  val scope = CoroutineScope(Dispatchers.Default + job)       // コルーチンスコープを作成。この時、context として Dispatchers.Default に加え、SupervisorJob を与えている。
+  val state = ServiceState(scope)       // ServiceState を生成。 ServiceState は次のような情報を持つ。サービス状態：in_service、out_of_service、emergency_only、power_off、デュプレックス・モード：不明、FDD、TDD、ローミングインジケータ、オペレーター名、ショートネーム、数字ID、ネットワーク選択モード
 //  private var isStarted = false
 
   // todo make private
-  lateinit var overlayController: OverlayController
-  lateinit var alarmController: AlarmController
+  lateinit var overlayController: OverlayController       // Overlay のコントロールをする変数や関数のクラスのインスタンスを作成
+  lateinit var alarmController: AlarmController        // Alarm のコントロールをする変数や関数のクラスのインスタンスを作成
 
   override fun onCreate() {
     super.onCreate()
@@ -57,11 +57,11 @@ class FloatingService : Service() {
 
     intent?.let {
       val command = intent.getStringExtra(INTENT_COMMAND)
-      when (command) {
+      when (command) {        // command の値によって処理を分岐させる
         INTENT_COMMAND_COUNTDOWN_CREATE -> {
           val duration = intent.getIntExtra(EXTRA_COUNTDOWN_DURATION, 10)
           state.countdownState.resetTimerState(duration)
-          state.countdownState.overlayState.isVisible.value = true
+          state.countdownState.overlayState.isVisible.value = true        // この値変更がカウントダウンのオーバーレイ表示のトリガー
         }
 
         INTENT_COMMAND_COUNTDOWN_COMPLETE -> {

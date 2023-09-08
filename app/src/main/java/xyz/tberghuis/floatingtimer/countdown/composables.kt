@@ -130,7 +130,7 @@ fun CreateCountdownCard() {
           // todo show dialog
           return@Button
         }
-        createTimer(context, totalSecs)
+        createTimer(context, totalSecs)       // このコードでカウントダウンのオーバーレイ表示を呼び出している
       }) {
         Text(stringResource(R.string.create))
       }
@@ -140,7 +140,7 @@ fun CreateCountdownCard() {
 
 fun createTimer(context: Context, duration: Int) {
   val intent = Intent(context.applicationContext, FloatingService::class.java)
-  intent.putExtra(INTENT_COMMAND, INTENT_COMMAND_COUNTDOWN_CREATE)
+  intent.putExtra(INTENT_COMMAND, INTENT_COMMAND_COUNTDOWN_CREATE)        // このコードでカウントダウンのオーバーレイ表示を呼び出している
   intent.putExtra(EXTRA_COUNTDOWN_DURATION, duration)
   context.startForegroundService(intent)
 }
